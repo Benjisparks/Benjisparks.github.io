@@ -6,4 +6,5 @@
 - [Ball Object Notation](03-ball-object)
 
 ## Projects
-- [Interactive Scene](02-Simon-Says)  
+- [Interactive Scene](02-Simon-Says)
+-[Arrays Object Assignment](04-Array-Assignment)  
