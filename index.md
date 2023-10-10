@@ -7,4 +7,4 @@
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
--[Arrays Object Assignment](04-Array-Assignment)  
+- [Arrays Object Assignment](04-Array-Assignment)  
