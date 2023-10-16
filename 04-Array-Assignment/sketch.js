@@ -16,7 +16,7 @@ function setup() {
 function draw() {
   background(220);
   moveBall();
-  //displayBall();
+  displayBall();
 }
 
 function createBall(){
@@ -24,6 +24,8 @@ function createBall(){
     x: windowWidth/5,
     y: windowHeight/8,
     radius: 30,
+    dy: 3,
+    color: "orange",
   };
   return theBall;
 }
@@ -44,12 +46,15 @@ function createBall(){
 // }
 
 
-// function displayBall(){
-//   circle(someBall.x,someBall.y,someBall.radius*2);
-// }
+function displayBall(){
+  noStroke();
+  fill(someBall.color);
+  circle(someBall.x,someBall.y,someBall.radius*2);
+}
 
 function moveBall(){
-  for(let y = 0; y === windowHeight - 100; y += 5 ){
-    circle(someBall.x,y,someBall.radius*2);
+  someBall.y += someBall.dy;
+  if (someBall.y >= windowHeight - 100 || someBall.y <= 50){
+    someBall.dy = someBall.dy * -1;
   }
 }
