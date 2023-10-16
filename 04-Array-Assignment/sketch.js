@@ -5,24 +5,27 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-let balls = [];
+//let balls = [];
+let someBall;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  someBall = createBall();
 }
 
 function draw() {
   background(220);
-  displayBall();
+  moveBall();
+  //displayBall();
 }
 
 function createBall(){
   let theBall = {
-    x: mouseX,
-    y: mouseY,
+    x: windowWidth/5,
+    y: windowHeight/8,
     radius: 30,
   };
-  balls.push(theBall);
+  return theBall;
 }
 
 // function usercreateBall(){
@@ -35,18 +38,18 @@ function createBall(){
 //   return theBall;
 // }
 
-function mouseClicked(){
-  let userBall = createBall();
-  displayBall(userBall);
-}
-
 // function mouseClicked(){
-//   someBall = usercreateBall();
-//   displayBall();
+//   let userBall = createBall();
+//   displayBall(userBall);
 // }
 
-function displayBall(){
-  for(let someBall of balls){
-    circle(someBall.x,someBall.y,someBall.radius*2);
+
+// function displayBall(){
+//   circle(someBall.x,someBall.y,someBall.radius*2);
+// }
+
+function moveBall(){
+  for(let y = 0; y === windowHeight - 100; y += 5 ){
+    circle(someBall.x,y,someBall.radius*2);
   }
 }
