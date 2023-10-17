@@ -9,6 +9,11 @@
 let someBall;
 let myFont;
 let txtSize;
+let gameScreen = "start";
+let buttX;
+let buttY;
+let buttW;
+let buttL;
 
 function preload(){
   myFont = loadFont("NEONLEDLight.otf");
@@ -21,7 +26,7 @@ function setup() {
 
 function draw() {
   background(220);
-  startText();
+  runGame();
   //moveBall();
   //displayBall();
 }
@@ -36,22 +41,6 @@ function createBall(){
   };
   return theBall;
 }
-
-// function usercreateBall(){
-//   let theBall = {
-//     x: mouseX,
-//     y: mouseY,
-//     radius: 30,
-//     color: "orange",
-//   };
-//   return theBall;
-// }
-
-// function mouseClicked(){
-//   let userBall = createBall();
-//   displayBall(userBall);
-// }
-
 
 function displayBall(){
   noStroke();
@@ -72,4 +61,24 @@ function startText(){
   text("Timing Practice", width/2,height/4 );
   fill(0, 0, 0);
   textAlign(CENTER,CENTER);
+}
+
+function playButton(){
+  textFont(myFont); 
+  fill(255);
+  text("Click To Play",width/2,height*0.5);
+  fill(0);
+}
+
+function mousePressed(){
+  if( gameScreen === "start"){
+    gameScreen = "game";
+  }
+}
+
+function runGame(){
+  if (gameScreen === "start"){
+    startText();
+    playButton();
+  }
 }
