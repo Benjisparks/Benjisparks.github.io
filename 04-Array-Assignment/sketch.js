@@ -7,16 +7,23 @@
 
 //let balls = [];
 let someBall;
+let myFont;
+let txtSize;
 
+function preload(){
+  myFont = loadFont("NEONLEDLight.otf");
+}
 function setup() {
   createCanvas(windowWidth, windowHeight);
   someBall = createBall();
+  txtSize = windowWidth/10;
 }
 
 function draw() {
   background(220);
-  moveBall();
-  displayBall();
+  startText();
+  //moveBall();
+  //displayBall();
 }
 
 function createBall(){
@@ -57,4 +64,12 @@ function moveBall(){
   if (someBall.y >= windowHeight - 100 || someBall.y <= 50){
     someBall.dy = someBall.dy * -1;
   }
+}
+
+function startText(){
+  textSize(txtSize);
+  textFont(myFont);
+  text("Timing Practice", width/2,height/4 );
+  fill(0, 0, 0);
+  textAlign(CENTER,CENTER);
 }
