@@ -26,5 +26,7 @@ function draw() {
 
 function mouusePressed(){
   //coinSound.play();
-  backgroundMusic.play();
-}
+  if(!backgroundMusic.isPlaying()){
+    backgroundMusic.loop();
+  }
+} 
