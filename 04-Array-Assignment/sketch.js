@@ -1,20 +1,17 @@
-// Project Title
-// Your Name
-// Date
+// Array and Object Assignment
+// Benjamin Sparks
+// 10/18/2023
 //
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-//let balls = [];
 let someBall;
 let myFont;
 let txtSize;
 let gameScreen = "start";
-let buttX;
-let buttY;
-let buttW;
-let buttL;
-let apple, pear, lemon, orange, pineapple;
+let apple, pear, lemon, orange, pineapple, barrel, bomb;
+let fruitOrder = [];
+let collectedFruit = [];
 
 function preload(){
   myFont = loadFont("NEONLEDLight.otf");
@@ -22,6 +19,9 @@ function preload(){
   pear = loadImage("Pear.png");
   lemon = loadImage("Lemon.png");
   pineapple = loadImage("Pineapple.png");
+  barrel = loadImage("Barrel.png")
+  bomb = loadImage("Bomb.jpg")
+  goodSound = loadSound("GoodSFX.wav")
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -46,7 +46,9 @@ function createBall(){
   };
   return theBall;
 }
-
+function play(){
+  
+}
 function displayBall(){
   noStroke();
   fill(someBall.color);
@@ -63,7 +65,7 @@ function moveBall(){
 function startText(){
   textSize(txtSize);
   textFont(myFont);
-  text("Timing Practice", width/2,height/4 );
+  text("Fruit Master", width/2,height/4 );
   fill(0, 0, 0);
   textAlign(CENTER,CENTER);
 }
@@ -96,5 +98,6 @@ function runGame(){
 }
 
 function restartGame(){
-
+  gameScreen = "start"
 }
+
