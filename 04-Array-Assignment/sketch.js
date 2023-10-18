@@ -14,9 +14,14 @@ let buttX;
 let buttY;
 let buttW;
 let buttL;
+let apple, pear, lemon, orange, pineapple;
 
 function preload(){
   myFont = loadFont("NEONLEDLight.otf");
+  apple = loadImage("Apple.png");
+  pear = loadImage("Pear.png");
+  lemon = loadImage("Lemon.png");
+  pineapple = loadImage("Pineapple.png");
 }
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -81,4 +86,15 @@ function runGame(){
     startText();
     playButton();
   }
+  else if(gameScreen === "game"){
+    play()
+  }
+  else{
+    endScreen();
+    setTimeout(restartGame(),2000);
+  }
+}
+
+function restartGame(){
+
 }
