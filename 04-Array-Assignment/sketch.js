@@ -6,6 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 let playerBarrel;
+let fruitObjs;
 let myFont;
 let txtSize;
 let gameScreen = "start";
@@ -31,6 +32,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   playerBarrel = createBarrel();
   txtSize = windowWidth/10;
+  fruitObjs = createFruitObj();
 }
 
 function draw() {
@@ -43,23 +45,42 @@ function createBarrel(){
     x: mouseX,
     y: windowHeight - 100,
     image: barrel,
+    scaleX: barrel.width *4,
+    scaleY: barrel.height*4,
   };
   return theBarrel;
 }
 
+function createFruitObj(){
+  let theFruit = {
+    x: random(windowWidth - 50),
+    y: 0,
+    appleDy: 4,
+    pearDy: 4,
+    orangeDy: 5,
+    lemonDy: 6,
+    bombDy: 5,
+  };
+  return theFruit;
+}
 function play(){
   moveBarrel();
   displayBarrel();
   setInterval(setFruit(),500);
-  displayFruit();
+  sortFruit();
+  moveFruit();
+  //displayFruit();
   setInterval(resetFruit(),5000);
 }
 function displayBarrel(){
-  image(playerBarrel.image,playerBarrel.x,playerBarrel.y);
+  image(playerBarrel.image,playerBarrel.x,playerBarrel.y,playerBarrel.scaleX,playerBarrel.scaleY);
 }
 
 function moveBarrel(){
   playerBarrel.x = mouseX;
+  if (playerBarrel.x >= windowWidth - playerBarrel.scaleX){
+    playerBarrel.x = windowWidth - playerBarrel.scaleX;
+  }
 }
 
 function startText(){
@@ -117,7 +138,7 @@ function resetFruit(){
   fruitOrder = [];
 }
 
-function displayFruit(){
+function sortFruit(){
   for(let i of fruitOrder){
     if (i === 0){
       currFruit = "apple";
@@ -132,4 +153,35 @@ function displayFruit(){
       currFruit = "orange";
     }
   }
+}
+
+function moveFruit(){
+  if(currFruit === "apple"){
+    for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.appleDy){
+      fruitObjs.y = i;
+    }
+  }
+  else if(currFruit === "pear"){
+    for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.pearDy){
+      fruitObjs.y = i;
+    }
+  }
+  else if(currFruit === "lemon"){
+    for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.lemonDy){
+      fruitObjs.y = i;
+    }
+  }
+  else if(currFruit === "orange"){
+    for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.orangeDy){
+      fruitObjs.y = 0
+    }
+  }
+  else if(currFruit === "bomb"){
+    for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.bombDy){
+      fruitObjs.y = i;
+    }
+  }
+}
+
+function displayFruit(){
 }
