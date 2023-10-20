@@ -25,7 +25,7 @@ function preload(){
   barrel = loadImage("Barrel.png");
   bomb = loadImage("Bomb.png");
   goodSound = loadSound("GoodSFX.wav");
-  //badSound = loadSound();
+  badSound = loadSound("lose sound 2 - 1_0.wav");
 }
 
 function setup() {
@@ -141,42 +141,45 @@ function resetFruit(){
 function sortFruit(){
   for(let i of fruitOrder){
     if (i === 0){
-      currFruit = "apple";
+      currFruit = apple;
     }
     else if(i === 1){
-      currFruit = "pear";
+      currFruit = pear;
     }
     else if(i === 2){
-      currFruit =  "lemon";
+      currFruit =  lemon;
     }
     else if(i === 3){
-      currFruit = "orange";
+      currFruit = orange;
+    }
+    else if(i===4){
+      currFruit = bomb;
     }
   }
 }
 
 function moveFruit(){
-  if(currFruit === "apple"){
+  if(currFruit === apple){
     for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.appleDy){
       fruitObjs.y = i;
     }
   }
-  else if(currFruit === "pear"){
+  else if(currFruit === pear){
     for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.pearDy){
       fruitObjs.y = i;
     }
   }
-  else if(currFruit === "lemon"){
+  else if(currFruit === lemon){
     for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.lemonDy){
       fruitObjs.y = i;
     }
   }
-  else if(currFruit === "orange"){
+  else if(currFruit === orange){
     for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.orangeDy){
       fruitObjs.y = 0
     }
   }
-  else if(currFruit === "bomb"){
+  else if(currFruit === bomb){
     for(let i = 0; fruitObjs.y <windowHeight; i += fruitObjs.bombDy){
       fruitObjs.y = i;
     }
@@ -184,4 +187,5 @@ function moveFruit(){
 }
 
 function displayFruit(){
+  image(currFruit, currFruit.x,currFruit.y,currFruit.scaleX,currFruit.scaleY)
 }
