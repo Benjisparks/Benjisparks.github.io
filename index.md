@@ -8,6 +8,7 @@
 - [Perlin Noise Ball](06-noise-ball)
 - [Sounds and Images](08-sound)
 - [Terrain Generation](09-terrain)
+- [2d Array](10-2d-Array)
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
