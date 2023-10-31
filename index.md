@@ -11,6 +11,7 @@
 - [2d Array](10-2d-Array)
 - [Array Neighbors](11-2d-Neighbors)
 - [Game of Life](12-game-of-life)
+- [Character in Grid](13-character-grid)
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
