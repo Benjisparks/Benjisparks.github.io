@@ -15,4 +15,5 @@
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
-- [Arrays Object Assignment](04-Array-Assignment)  
+- [Arrays Object Assignment](04-Array-Assignment)
+- [Grid Based Game](14-grid-game)  
