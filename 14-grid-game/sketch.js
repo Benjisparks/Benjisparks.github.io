@@ -21,7 +21,7 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = generateGrid(GRID_SIZE,GRID_SIZE);
-  titleSize = width/4;
+  titleSize = width/8;
   if (height > width) {
     cellSize = width/GRID_SIZE;
   }
@@ -31,14 +31,16 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  //background(220);
   //displayGrid();
+  displayBackground();
   startText();
+  //runGame();
 }
 
 function runGame(){
   if( gmScreen === "start"){
-    //displayBg();
+    displayBackground();
     startText();
   }
   // else if(gmScreen === "game"){
@@ -85,6 +87,11 @@ function keyTyped(){
 function startText() {
   textFont(titleFont);
   textSize(titleSize);
-  text("MINESWEEPER",width/2,height/4);
   textAlign(CENTER,CENTER);
+  text("MINESWEEPER",width/2,height/4);
+
+}
+
+function displayBackground(){
+  image(theBackground,0,0,width,height);
 }
