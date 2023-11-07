@@ -21,6 +21,7 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   grid = generateGrid(GRID_SIZE,GRID_SIZE);
+  placeMines();
   titleSize = width/8;
   if (height > width) {
     cellSize = width/GRID_SIZE;
@@ -32,21 +33,24 @@ function setup() {
 
 function draw() {
   //background(220);
-  //displayGrid();
-  displayBackground();
-  startText();
+  displayGrid();
+  //displayBackground();
+  //startText();
   //runGame();
 }
 
-function runGame(){
-  if( gmScreen === "start"){
-    displayBackground();
-    startText();
-  }
-  // else if(gmScreen === "game"){
-  //   playGame();
-  // }
-}
+// function runGame(){
+//   if( gmScreen === "start"){
+//     displayBackground();
+//     startText();
+//   }
+//   else if(gmScreen === "game"){
+//     //playGame();
+//   }
+//   else if(gmScreen === "lose"){
+//     gameOver();
+//   }
+// }
 
 // function playGame(){
 
@@ -63,14 +67,25 @@ function generateGrid(cols,rows){
   return theGrid;
 }
 
-// function placeMines(){
-
-// }
+function placeMines(){
+  for(let y = 0; y < GRID_SIZE; y++){
+    for(let x = 0; x <GRID_SIZE; x++){
+      if (random(100) < 15){
+        grid[y][x] = 1;
+      }
+    }
+  }
+}
 
 function displayGrid(){
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x < GRID_SIZE; x++){
-      fill("white");
+      if (grid[y][x] === 0){
+        fill("white");        
+      }
+      else if (grid[y][x] ===1){
+        fill("black");
+      }
       rect(x*cellSize,y*cellSize,cellSize,cellSize);
     }
   }
@@ -82,6 +97,10 @@ function keyTyped(){
       gmScreen = "game";
     }
   }
+}
+
+function mousePressed(){
+  
 }
 
 function startText() {
