@@ -9,6 +9,8 @@ let GRID_SIZE = 16;
 let titleFont;
 let titleSize;
 let theBackground;
+let mineSfx;
+let loseSound = false;
 let gmScreen = "start";
 let grid;
 let cellSize;
@@ -16,6 +18,7 @@ let cellSize;
 function preload(){
   titleFont = loadFont("1989.ttf");
   theBackground = loadImage("bg.png");
+  mineSfx = loadSound("8bit_bomb_explosion.wav");
 }
 
 function setup() {
@@ -33,27 +36,35 @@ function setup() {
 
 function draw() {
   //background(220);
-  displayGrid();
+  //displayGrid();
   //displayBackground();
   //startText();
-  //runGame();
+  runGame();
 }
 
-// function runGame(){
-//   if( gmScreen === "start"){
-//     displayBackground();
-//     startText();
-//   }
-//   else if(gmScreen === "game"){
-//     //playGame();
-//   }
-//   else if(gmScreen === "lose"){
-//     gameOver();
-//   }
-// }
+function runGame(){
+  if( gmScreen === "start"){
+    displayBackground();
+    fill("white");
+    startText();
+  }
+  else if(gmScreen === "game"){
+    background(220);
+    //playGame();
+    displayGrid();
+  }
+  else if(gmScreen === "lose"){
+    revealGrid();
+    if(loseSound === true){
+      mineSfx.play();
+      loseSound = !loseSound;
+    }
+    //gameOver();
+  }    
+}
 
 // function playGame(){
-
+//   displayGrid();
 // }
 
 function generateGrid(cols,rows){
@@ -84,7 +95,27 @@ function displayGrid(){
         fill("white");        
       }
       else if (grid[y][x] ===1){
+        fill("white");
+      }
+      else if(grid[y][x] === 2){
+        fill("gray");
+      }
+      rect(x*cellSize,y*cellSize,cellSize,cellSize);
+    }
+  }
+}
+
+function revealGrid(){
+  for(let y = 0; y < GRID_SIZE; y++){
+    for(let x = 0; x < GRID_SIZE; x++){
+      if (grid[y][x] === 0){
+        fill("white");        
+      }
+      else if (grid[y][x] ===1){
         fill("black");
+      }
+      else if(grid[y][x] === 2){
+        fill("gray");
       }
       rect(x*cellSize,y*cellSize,cellSize,cellSize);
     }
@@ -92,17 +123,38 @@ function displayGrid(){
 }
 
 function keyTyped(){
-  if( key === ENTER){
+  if( key === " "){
     if(gmScreen === "start"){
       gmScreen = "game";
+    }
+    else if(gmScreen === "lose"){
+      gmScreen = "start";
+      grid = generateGrid(GRID_SIZE,GRID_SIZE);
+      placeMines();
     }
   }
 }
 
 function mousePressed(){
-  
+  let y = Math.floor(mouseY / cellSize);
+  let x = Math.floor(mouseX / cellSize);
+
+  checkTile(x,y);
 }
 
+function checkTile(x,y){
+  if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+    if(grid[y][x] === 0){
+      //checkAdjacent();
+      grid[y][x] = 2;
+    }
+    else if(grid[y][x] === 1){
+      //grid[y][x] = 0;
+      gmScreen = "lose";
+      loseSound = true;
+    }
+  }
+}
 function startText() {
   textFont(titleFont);
   textSize(titleSize);
