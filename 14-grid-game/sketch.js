@@ -50,7 +50,6 @@ function runGame(){
   }
   else if(gmScreen === "game"){
     background(220);
-    //playGame();
     displayGrid();
   }
   else if(gmScreen === "lose"){
@@ -62,10 +61,6 @@ function runGame(){
     gameOver();
   }    
 }
-
-// function playGame(){
-//   displayGrid();
-// }
 
 function generateGrid(cols,rows){
   let theGrid = [];
@@ -157,10 +152,17 @@ function checkTile(x,y){
   }
 }
 
-function checkAdjacent(y,x){
-  let closeMines = 0;
-  
-}
+// function checkAdjacent(y,x){
+//   let closeMines = 0;
+//   for (let i = -1; i <= 1; i++) {
+//     for (let j = -1; j <= 1; j++) {
+//       //detect edge cases
+//       if (y+i >= 0 && y+i < GRID_SIZE && x+j >= 0 && x+j < GRID_SIZE) {
+//         closeMines += 1;//grid[y+i][x+j];
+//       }
+//     }
+//   }  
+// }
 
 function startText() {
   textFont(titleFont);
