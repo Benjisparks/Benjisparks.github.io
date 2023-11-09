@@ -59,7 +59,7 @@ function runGame(){
       mineSfx.play();
       loseSound = !loseSound;
     }
-    //gameOver();
+    gameOver();
   }    
 }
 
@@ -136,10 +136,12 @@ function keyTyped(){
 }
 
 function mousePressed(){
-  let y = Math.floor(mouseY / cellSize);
-  let x = Math.floor(mouseX / cellSize);
+  if(gmScreen === "game"){
+    let y = Math.floor(mouseY / cellSize);
+    let x = Math.floor(mouseX / cellSize);
 
-  checkTile(x,y);
+    checkTile(x,y);
+  }
 }
 
 function checkTile(x,y){
@@ -149,12 +151,17 @@ function checkTile(x,y){
       grid[y][x] = 2;
     }
     else if(grid[y][x] === 1){
-      //grid[y][x] = 0;
       gmScreen = "lose";
       loseSound = true;
     }
   }
 }
+
+function checkAdjacent(y,x){
+  let closeMines = 0;
+  
+}
+
 function startText() {
   textFont(titleFont);
   textSize(titleSize);
@@ -165,4 +172,12 @@ function startText() {
 
 function displayBackground(){
   image(theBackground,0,0,width,height);
+}
+
+function gameOver(){
+  fill("red");
+  textFont(titleFont);
+  textSize(titleSize);
+  textAlign(CENTER,CENTER);
+  text("GAME OVER",width/2,height/4);
 }
