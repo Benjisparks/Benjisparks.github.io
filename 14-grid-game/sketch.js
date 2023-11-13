@@ -77,7 +77,7 @@ function placeMines(){
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x <GRID_SIZE; x++){
       if (random(100) < 15){
-        grid[y][x] = 1;
+        grid[y][x] = -1;
       }
     }
   }
@@ -87,15 +87,26 @@ function displayGrid(){
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x < GRID_SIZE; x++){
       if (grid[y][x] === 0){
-        fill("white");        
+        fill("white"); 
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);       
       }
-      else if (grid[y][x] ===1){
+      else if (grid[y][x] === -1){
         fill("white");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
-      else if(grid[y][x] === 2){
+      else if(grid[y][x] === -2){
+          fill("gray");
+          rect(x*cellSize,y*cellSize,cellSize,cellSize);
+      }
+      else{
         fill("gray");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
+        fill("black");
+        textAlign(CENTER,CENTER);
+        textSize(cellSize);
+        text(grid[y][x],(x*cellSize)+20,(y*cellSize)+20);
+
       }
-      rect(x*cellSize,y*cellSize,cellSize,cellSize);
     }
   }
 }
@@ -104,18 +115,30 @@ function revealGrid(){
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x < GRID_SIZE; x++){
       if (grid[y][x] === 0){
-        fill("white");        
+        fill("white"); 
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);       
       }
-      else if (grid[y][x] ===1){
+      else if (grid[y][x] === -1){
         fill("black");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
-      else if(grid[y][x] === 2){
+      else if(grid[y][x] === -2){
+          fill("gray");
+          rect(x*cellSize,y*cellSize,cellSize,cellSize);
+      }
+      else{
         fill("gray");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
+        fill("black");
+        textAlign(CENTER,CENTER);
+        textSize(cellSize);
+        text(grid[y][x],(x*cellSize)+20,(y*cellSize)+20);
+
       }
-      rect(x*cellSize,y*cellSize,cellSize,cellSize);
     }
   }
 }
+
 
 function keyTyped(){
   if( key === " "){
@@ -142,27 +165,56 @@ function mousePressed(){
 function checkTile(x,y){
   if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
     if(grid[y][x] === 0){
-      //checkAdjacent();
-      grid[y][x] = 2;
+      let nearMines = checkAdjacent(x,y);
+      if(nearMines === 0){
+        //grid[y][x] = -2;
+        fillEmptyCells(x,y);
+      }
+      else{
+        grid[y][x] = nearMines;
+      }
     }
-    else if(grid[y][x] === 1){
+    else if(grid[y][x] === -1){
       gmScreen = "lose";
       loseSound = true;
     }
   }
 }
 
-// function checkAdjacent(y,x){
-//   let closeMines = 0;
-//   for (let i = -1; i <= 1; i++) {
-//     for (let j = -1; j <= 1; j++) {
-//       //detect edge cases
-//       if (y+i >= 0 && y+i < GRID_SIZE && x+j >= 0 && x+j < GRID_SIZE) {
-//         closeMines += 1;//grid[y+i][x+j];
-//       }
-//     }
-//   }  
-// }
+function fillEmptyCells(x,y){
+  grid[y][x] = -2;
+  // for(let i = -1; i <= 1; i++){
+  //   for(let j = -1; j <= 1; j++){
+  //     fillEmptyCells(x+j,y+i);
+  //   }
+  // }
+  fillEmptyCells(x,y-1);
+  fillEmptyCells(x,y+1);
+  fillEmptyCells(x-1,y);
+  fillEmptyCells(x-1,y-1);
+  fillEmptyCells(x-1,y+1);
+  fillEmptyCells(x+1,y);
+  fillEmptyCells(x+1,y-1);
+  fillEmptyCells(x+1,y+1);
+}
+
+function checkAdjacent(x,y){ 
+  let closeMines = 0;
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      let newX = x + i;
+      let newY = y + j;
+
+      if(newY >= 0 && newY < GRID_SIZE && newX >= 0 && newX < GRID_SIZE) {
+        if(grid[newY][newX] === -1){
+          closeMines += 1;
+        }
+      }
+    }
+  }
+  return closeMines;
+}
+
 
 function startText() {
   textFont(titleFont);
