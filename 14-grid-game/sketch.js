@@ -1,68 +1,69 @@
-// Project Title
-// Your Name
-// Date
+// Grid Game Assignment - Minesweeper
+// Ben Sparks
+// Due: 11/13/2023
 //
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Press Space to play and restart game. Click to reveal tiles
+//This project was a fun challenge to make, and I would like to comew back and revisit the flood fill algorithm to make it work
+//I attempted a flood fill but each time there would be some kind of problem, so I scrapped it to make the game work better
+//Previous functions would fill all blank tiles diagnally or in a straight line, and the final one just reveals the whole screen
 
-let GRID_SIZE = 16;
+
+//Declaring global variables
+let GRID_SIZE = 16; //Constant for how many cells up and down in grid 16x16
 let titleFont;
-let titleSize;
-let theBackground;
-let mineSfx;
-let loseSound = false;
-let gmScreen = "start";
-let grid;
-let cellSize;
+let titleSize; //Text screen variables
+let theBackground; //Image of background
+let mineSfx; //Sound effect on loss
+let loseSound = false;  //bool value so that the sound doesnt loop
+let gmScreen = "start"; //Global screen variable
+let grid; //Global grid variable
+let cellSize; //How big the cells should be, based on the window size
 
-function preload(){
+function preload(){ //Preloading assets into game
   titleFont = loadFont("1989.ttf");
   theBackground = loadImage("bg.png");
   mineSfx = loadSound("8bit_bomb_explosion.wav");
 }
 
-function setup() {
+function setup() { //Creating canvas
   createCanvas(windowWidth, windowHeight);
-  grid = generateGrid(GRID_SIZE,GRID_SIZE);
-  placeMines();
+  grid = generateGrid(GRID_SIZE,GRID_SIZE); //Generating first grid 
+  placeMines(); //Placing mines in first grid
   titleSize = width/8;
   if (height > width) {
-    cellSize = width/GRID_SIZE;
+    cellSize = width/GRID_SIZE;  //Setting sizes based on window
   }
   else {
     cellSize = height/GRID_SIZE;
   }
 }
 
-function draw() {
-  //background(220);
-  //displayGrid();
-  //displayBackground();
-  //startText();
+function draw() { //Main draw loop for p5js
   runGame();
 }
 
-function runGame(){
-  if( gmScreen === "start"){
+function runGame(){  //Main game function
+  if( gmScreen === "start"){ //start screen
     displayBackground();
     fill("white");
     startText();
   }
-  else if(gmScreen === "game"){
+  else if(gmScreen === "game"){ //Main game loop
     background(220);
     displayGrid();
   }
   else if(gmScreen === "lose"){
-    revealGrid();
+    checkAllTiles();
+    revealGrid();                //on a loss, display the full grid and play sound
     if(loseSound === true){
       mineSfx.play();
       loseSound = !loseSound;
     }
-    gameOver();
+    gameOver();      //losing text
   }    
 }
 
-function generateGrid(cols,rows){
+function generateGrid(cols,rows){  //Creates 2d array 16x16 full of 0's
   let theGrid = [];
   for(let y = 0; y < cols; y++){
     theGrid.push([]);
@@ -73,7 +74,7 @@ function generateGrid(cols,rows){
   return theGrid;
 }
 
-function placeMines(){
+function placeMines(){    //inserts mines into board with a 15/100 chance each time
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x <GRID_SIZE; x++){
       if (random(100) < 15){
@@ -83,22 +84,22 @@ function placeMines(){
   }
 }
 
-function displayGrid(){
+function displayGrid(){  //Draws the grid to the screen
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x < GRID_SIZE; x++){
-      if (grid[y][x] === 0){
+      if (grid[y][x] === 0){                  //If the value is 0 display a white square
         fill("white"); 
         rect(x*cellSize,y*cellSize,cellSize,cellSize);       
       }
-      else if (grid[y][x] === -1){
+      else if (grid[y][x] === -1){              //White for bombs as well
         fill("white");
         rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
-      else if(grid[y][x] === -2){
+      else if(grid[y][x] === -2){                   //Empty cells after being cleared, no mines connected
           fill("gray");
           rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
-      else{
+      else{                                           //Gray square with the number of nearby mines 
         fill("gray");
         rect(x*cellSize,y*cellSize,cellSize,cellSize);
         fill("black");
@@ -111,7 +112,7 @@ function displayGrid(){
   }
 }
 
-function revealGrid(){
+function revealGrid(){             //Same as displayGrid but all mines are revealed
   for(let y = 0; y < GRID_SIZE; y++){
     for(let x = 0; x < GRID_SIZE; x++){
       if (grid[y][x] === 0){
@@ -140,7 +141,7 @@ function revealGrid(){
 }
 
 
-function keyTyped(){
+function keyTyped(){              //Press space to start and restart Game
   if( key === " "){
     if(gmScreen === "start"){
       gmScreen = "game";
@@ -149,26 +150,27 @@ function keyTyped(){
       gmScreen = "start";
       grid = generateGrid(GRID_SIZE,GRID_SIZE);
       placeMines();
+      //checkAllTiles()
     }
   }
 }
 
-function mousePressed(){
-  if(gmScreen === "game"){
+function mousePressed(){  //Mouse clicking function
+  if(gmScreen === "game"){        //Reads where the mouse is on the grid 
     let y = Math.floor(mouseY / cellSize);
     let x = Math.floor(mouseX / cellSize);
 
-    checkTile(x,y);
+    checkTile(x,y); // calls checkTile
   }
 }
 
-function checkTile(x,y){
+function checkTile(x,y){           //Checks if tile is a mine, if not than counts adjacent mines
   if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
     if(grid[y][x] === 0){
       let nearMines = checkAdjacent(x,y);
       if(nearMines === 0){
-        //grid[y][x] = -2;
-        fillEmptyCells(x,y);
+        //fillEmptyCells(x,y);
+        grid[y][x] = -2;
       }
       else{
         grid[y][x] = nearMines;
@@ -181,24 +183,34 @@ function checkTile(x,y){
   }
 }
 
-function fillEmptyCells(x,y){
-  grid[y][x] = -2;
-  // for(let i = -1; i <= 1; i++){
-  //   for(let j = -1; j <= 1; j++){
-  //     fillEmptyCells(x+j,y+i);
-  //   }
-  // }
-  fillEmptyCells(x,y-1);
-  fillEmptyCells(x,y+1);
-  fillEmptyCells(x-1,y);
-  fillEmptyCells(x-1,y-1);
-  fillEmptyCells(x-1,y+1);
-  fillEmptyCells(x+1,y);
-  fillEmptyCells(x+1,y-1);
-  fillEmptyCells(x+1,y+1);
+function checkAllTiles(x,y){    //Checks all tiles if tile is a mine, if not than counts adjacent mines and sets to a value
+  for(let y = 0; y <GRID_SIZE; y++){
+    for(let x = 0;x < GRID_SIZE; x ++ ){
+      if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE) {
+        if(grid[y][x] === 0){
+          let nearMines = checkAdjacent(x,y);
+          grid[y][x] = nearMines;
+        }
+      } 
+    }
+  }       
 }
 
-function checkAdjacent(x,y){ 
+// function fillEmptyCells(x,y){   //Attempted recursive floodfill function 
+                                    //Works too well and reveals every single tile on the grid
+//   if(y >= 0 && y < GRID_SIZE && x >= 0 && x< GRID_SIZE) {
+//     if(grid[y][x] === 0){
+//       grid[y][x] = -2;
+//       fillEmptyCells(x+1,y);
+//       fillEmptyCells(x-1,y);
+//       fillEmptyCells(x,y-1);
+//       fillEmptyCells(x,y+1);
+//     }
+
+//   }
+// }
+
+function checkAdjacent(x,y){ //checks around in a 3x3 grid for mines
   let closeMines = 0;
   for (let i = -1; i <= 1; i++) {
     for (let j = -1; j <= 1; j++) {
@@ -216,7 +228,7 @@ function checkAdjacent(x,y){
 }
 
 
-function startText() {
+function startText() {  //Title screen text
   textFont(titleFont);
   textSize(titleSize);
   textAlign(CENTER,CENTER);
@@ -224,11 +236,11 @@ function startText() {
 
 }
 
-function displayBackground(){
+function displayBackground(){ //Title screen background
   image(theBackground,0,0,width,height);
 }
 
-function gameOver(){
+function gameOver(){  //Game over text
   fill("red");
   textFont(titleFont);
   textSize(titleSize);
