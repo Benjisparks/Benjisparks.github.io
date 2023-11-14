@@ -96,8 +96,8 @@ function displayGrid(){  //Draws the grid to the screen
         rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
       else if(grid[y][x] === -2){                   //Empty cells after being cleared, no mines connected
-          fill("gray");
-          rect(x*cellSize,y*cellSize,cellSize,cellSize);
+        fill("gray");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
       else{                                           //Gray square with the number of nearby mines 
         fill("gray");
@@ -124,8 +124,8 @@ function revealGrid(){             //Same as displayGrid but all mines are revea
         rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
       else if(grid[y][x] === -2){
-          fill("gray");
-          rect(x*cellSize,y*cellSize,cellSize,cellSize);
+        fill("gray");
+        rect(x*cellSize,y*cellSize,cellSize,cellSize);
       }
       else{
         fill("gray");
