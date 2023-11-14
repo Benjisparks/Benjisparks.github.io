@@ -12,6 +12,7 @@
 - [Array Neighbors](11-2d-Neighbors)
 - [Game of Life](12-game-of-life)
 - [Character in Grid](13-character-grid)
+- [Dog OOP Demo](15-dog-oop)
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
