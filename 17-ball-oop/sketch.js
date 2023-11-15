@@ -27,6 +27,23 @@ class Ball {
     fill(this.r,this.g,this.b);
     circle(this.x,this.y,this.radius * 2);
   }
+
+  bounceOff(otherBall){
+    let radiiSum = this.radius + otherBall.radius;
+    let distanceApart = dist(this.x,this.y,otherBall.x,otherBall.y);
+    if( radiiSum > distanceApart){
+      let tempDx = this.dx;
+      let tempDy = this.dy;
+
+      this.dx = otherBall.dx;
+      this.dy = otherBall.dy;
+      otherBall.dx = tempDx;
+      otherBall.dy = tempDy;
+      // this.r = 255;
+      // this.b = 0;
+      // this.g = 0;
+    }
+  }
 }
 
 let ballArray = [];
@@ -42,6 +59,11 @@ function draw() {
   background(220);
   for( let someBall of ballArray){
     someBall.move();
+    for(let otherBall of ballArray){
+      if (someBall !== otherBall){
+        someBall.bounceOff(otherBall);
+      }      
+    }
     someBall.display();
   }
 }
