@@ -15,6 +15,12 @@ class Ball {
   move() {
     this.x += this.dx;
     this.y += this.dy;
+    if (this.x + this.radius > width || this.x < 0 +this.radius){
+      this.dx = this.dx * -1;
+    }
+    if(this.y + this.radius > height || this.y - this.radius < 0){
+      this.dy = this.dy * -1; 
+    }
   }
 
   display(){
