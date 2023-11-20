@@ -1,9 +1,4 @@
-// Project Title
-// Your Name
-// Date
-//
-// Extra for Experts:
-// - describe what you did to take this project "above and beyond"
+// Connected Nodes OOP Demo
 
 let points = [];
 
@@ -13,24 +8,25 @@ function setup() {
 
 function draw() {
   background(220);
-  for(let point of points){
+  for( let point of points){
     point.update();
+    point.connectTo(points);   
+  }    
+  for (let point of points) {
     point.display();
-    point.connectTo(points);
   }
 }
 
-function mousePressed(){
-  let thePoint = new MovingPoint(mouseX,mouseY);
+function mousePressed() {
+  let thePoint = new MovingPoint(mouseX, mouseY);
   points.push(thePoint);
-
 }
 
 class MovingPoint {
-  constructor(x,y){
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.color = color(random(255),random(255),random(255));
+    this.color = color(random(255), random(255), random(255));
     this.radius = 15;
     this.xTime = random(1000);
     this.yTime = random(1000);
@@ -38,17 +34,18 @@ class MovingPoint {
     this.reach = 150;
   }
 
-  display(){
+  display() {
     noStroke();
     fill(this.color);
-    circle(this.x, this.y, this.radius);
+    circle(this.x, this.y, this.radius*2);
   }
 
-  update(){
+  update() {
+    //move point
     let dx = noise(this.xTime);
-    this.dx = map(dx, 0,1,-5,5);
+    this.dx = map(dx, 0, 1, -5, 5);
     let dy = noise(this.yTime);
-    this.dy = map(dy,0,1,-5,5);
+    this.dy = map(dy, 0, 1, -5, 5);
 
     this.x += this.dx;
     this.y += this.dy;
@@ -56,26 +53,37 @@ class MovingPoint {
     this.xTime += this.deltaTime;
     this.yTime += this.deltaTime;
 
-    if(this.x < 0){
+    //wrap around screen
+    if (this.x < 0) {
       this.x += width;
     }
-    if(this.x < width){
+    if (this.x > width) {
       this.x -= width;
     }
-    if(this.y < 0){
+    if (this.y < 0) {
       this.y += height;
     }
-    if(this.y > height){
+    if (this.y > height) {
       this.y -= height;
+    }
+
+    let mouseDistance = dist(this.x,this.y,mouseX,mouseY);
+    if (mouseDistance <= this.reach){
+      let theSize = map(mouseDistance, 0,this.reach,30,15);
+      this.radius = theSize;
+    }
+    else{
+      this.radius = 15;
     }
   }
 
-  connectTo(pointsArray){
-    for(let otherPoint of pointsArray){
-      if(this !== otherPoint){
-        if(dist(this.x,this.y,otherPoint.x,otherPoint.y) < this.reach){
+  connectTo(pointsArray) {
+    for (let otherPoint of pointsArray) {
+      if (this !== otherPoint) {
+        if (dist(this.x, this.y, otherPoint.x, otherPoint.y) <
+             this.reach) {
           stroke(this.color);
-          line(this.x,this.y,otherPoint.x,otherPoint.y);
+          line(this.x, this.y, otherPoint.x, otherPoint.y);
         }
       }
     }
