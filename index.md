@@ -18,6 +18,7 @@
 - [Connected Ball OOP Demo](18-nodes)
 - [Fireworks Demo](19-fireworks)
 - [Inheritance Demo](20-inheritance)
+- [Recursion Demo](21-recursion)
 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
