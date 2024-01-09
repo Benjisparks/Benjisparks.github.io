@@ -19,7 +19,8 @@
 - [Fireworks Demo](19-fireworks)
 - [Inheritance Demo](20-inheritance)
 - [Recursion Demo](21-recursion)
-
+- [Recursion Sierpinski Triangle Demo](22-recursion-triangle)
+ 
 ## Projects
 - [Interactive Scene](02-Simon-Says)
 - [Arrays Object Assignment](04-Array-Assignment)
